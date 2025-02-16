@@ -17,7 +17,7 @@ Jenkins is a self-contained Java-based program, ready to run out-of-the-box, wit
    sudo wget -O /etc/yum.repos.d/jenkins.repo https://pkg.jenkins.io/redhat-stable/jenkins.repo
    sudo rpm --import https://pkg.jenkins.io/redhat-stable/jenkins.io.key
    # Check which version of Java is available for installation
-   amazon-linux-extras list | grep java or amazon-linux-extras list | grep jdk
+   amazon-linux-extras list | grep java # amazon-linux-extras list | grep jdk
    amazon-linux-extras enable java-openjdk11
    amazon-linux-extras install epel 
    amazon-linux-extras install java-openjdk11  
