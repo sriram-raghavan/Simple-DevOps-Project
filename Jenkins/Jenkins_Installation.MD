@@ -19,8 +19,16 @@ Jenkins is a self-contained Java-based program, ready to run out-of-the-box, wit
    # Check which version of Java is available for installation
    amazon-linux-extras list | grep java # amazon-linux-extras list | grep jdk
    amazon-linux-extras enable java-openjdk11
+   Topic java-openjdk11 has end-of-support date of 2024-09-30
    amazon-linux-extras install epel 
-   amazon-linux-extras install java-openjdk11  
+   yum install java-11-openjdk
+   # Setting JAVA_HOME
+   cd ~
+   vi .bash_profile
+   # Add this line - JAVA_HOME=/usr/lib/jvm/java-11-openjdk-11.0.25.0.9-1.amzn2.0.1.x86_64 under User specfic section
+   # To the PATH line add :$JAVA_HOME/bin
+   # Save and exit
+   java --version # This should display the Java version properly
    
    #on RedHat/CentOs 
    #yum install epel-release # repository that provides 'daemonize'
