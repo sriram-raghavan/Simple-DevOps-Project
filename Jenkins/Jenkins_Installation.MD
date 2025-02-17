@@ -1,13 +1,11 @@
 # Install Jenkins on AWS EC2
-Jenkins is a self-contained Java-based program, ready to run out-of-the-box, with packages for Windows, Mac OS X and other Unix-like operating systems. As an extensible automation server, Jenkins can be used as a simple CI server or turned into the continuous delivery hub for any project.
-
-### Follow this artical [On YouTube Channel](https://youtu.be/ERR7cqW28FY)
+Jenkins is a self-contained Java-based program, ready to run out-of-the-box, with packages for Windows, Mac OSX and other Unix-like operating systems. As an extensible automation server, Jenkins can be used as a simple CI server or turned into the continuous delivery hub for any project.
 
 ### Prerequisites
-1. EC2 Instance 
+1. EC2 Instance (Amazon Linux 2 does not support Jenkins. Link to article - https://community.jenkins.io/t/support-of-jenkins-on-amazon-linux-2/5110)
    - With Internet Access
    - Security Group with Port `8080` open for internet
-1. Java 11 should be installed  
+1. Java 17 should be installed. (java-openjdk11 has end-of-support date of 2024-09-30)
 
 
 ## Install Jenkins
@@ -15,26 +13,26 @@ Jenkins is a self-contained Java-based program, ready to run out-of-the-box, wit
 1. Get the latest version of jenkins from https://pkg.jenkins.io/redhat-stable/ and install
    ```sh
    sudo wget -O /etc/yum.repos.d/jenkins.repo https://pkg.jenkins.io/redhat-stable/jenkins.repo
-   sudo rpm --import https://pkg.jenkins.io/redhat-stable/jenkins.io.key
-   # Check which version of Java is available for installation
-   amazon-linux-extras list | grep java # amazon-linux-extras list | grep jdk
-   amazon-linux-extras enable java-openjdk11
-   Topic java-openjdk11 has end-of-support date of 2024-09-30
-   amazon-linux-extras install epel 
-   yum install java-11-openjdk
-   # Setting JAVA_HOME
+   sudo rpm --import https://pkg.jenkins.io/redhat-stable/jenkins.io-2023.key
+   sudo yum upgrade
+   yum search java | grep java-17
+   # Add required dependencies for the jenkins package
+   sudo yum install java-17-amazon-corretto-devel.x86_64
+   sudo yum install jenkins
+   # Check where Java is installed
+   sudo alternatives --config java # select which Java version is needed by entering the number
+   # Setting JAVA_HOME path
    cd ~
-   vi .bash_profile
-   # Add this line - JAVA_HOME=/usr/lib/jvm/java-11-openjdk-11.0.25.0.9-1.amzn2.0.1.x86_64 under User specfic section
-   # To the PATH line add :$JAVA_HOME/bin
+   vi .bashrc
+   # Add this line - JAVA_HOME=/usr/lib/jvm/java-17-amazon-corretto.x86_64 above user specfic environment section
+   # User specific environment
+   # if ! [[ "$PATH" =~ "$HOME/.local/bin:$HOME/bin:$JAVA_HOME/bin:" ]]
+   # then
+   #     PATH="$HOME/.local/bin:$HOME/bin:$PATH:$JAVA_HOME/bin"
+   # fi
+   # export PATH
    # Save and exit
-   java --version # This should display the Java version properly
-   
-   #on RedHat/CentOs 
-   #yum install epel-release # repository that provides 'daemonize'
-   #yum install java-11-openjdk-devel
-   #yum install jenkins
-   ```
+   java --version
 
    ### Start Jenkins
    ```sh
