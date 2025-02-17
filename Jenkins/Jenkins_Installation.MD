@@ -32,6 +32,7 @@ Jenkins is a self-contained Java-based program, ready to run out-of-the-box, wit
    # fi
    # export PATH
    # Save and exit
+   source .bashrc
    java --version
 
    ### Start Jenkins
